@@ -10,7 +10,7 @@ window.onload = function() {
 };
 
 function setEndDate() {
-    const startDate = new Date(document.getElementById("start-date").value);
+    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 13);
     document.getElementById("end-date").value = endDate.toISOString().split('T')[0];
@@ -18,8 +18,8 @@ function setEndDate() {
 
 function calculateAverage() {
     const quantity = parseInt(document.getElementById("quantity").value);
-    const startDate = new Date(document.getElementById("start-date").value);
-    const endDate = new Date(document.getElementById("end-date").value);
+    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
+    const endDate = new Date(document.getElementById("end-date").value + "T00:00:00+09:00");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
 
     if (quantity && startDate && endDate && daysDiff > 0) {
