@@ -39,7 +39,7 @@
     <label for="quantity">個数：</label>
     <input type="number" id="quantity" min="1" required>
     <label for="start-date">開始日：</label>
-    <input type="date" id="start-date" required>
+    <input type="date" id="start-date" onchange="setEndDate()" required>
     <label for="end-date">終了日：</label>
     <input type="date" id="end-date" required>
     <button onclick="calculateAverage()">計算</button>
@@ -56,6 +56,13 @@
             if (startDate) document.getElementById('start-date').value = startDate;
             if (endDate) document.getElementById('end-date').value = endDate;
         };
+
+        function setEndDate() {
+            const startDate = new Date(document.getElementById("start-date").value);
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 13);
+            document.getElementById("end-date").value = endDate.toISOString().split('T')[0];
+        }
 
         function calculateAverage() {
             const quantity = parseInt(document.getElementById("quantity").value);
