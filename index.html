@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日付ごとの平均数計算</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    input[type="number"], input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #output {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+    <label for="quantity">個数：</label>
+    <input type="number" id="quantity" min="1" required>
+    <label for="start-date">開始日：</label>
+    <input type="date" id="start-date" required>
+    <label for="end-date">終了日：</label>
+    <input type="date" id="end-date" required>
+    <button onclick="calculateAverage()">計算</button>
+    <div id="output"></div>
+
+    <script>
+        function calculateAverage() {
+            const quantity = parseInt(document.getElementById("quantity").value);
+            const startDate = new Date(document.getElementById("start-date").value);
+            const endDate = new Date(document.getElementById("end-date").value);
+            const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+            if (quantity && startDate && endDate && daysDiff > 0) {
+                let output = '';
+                let runningTotal = 0;
+
+                for (let i = 0; i <= daysDiff; i++) {
+                    const currentDate = new Date(startDate);
+                    currentDate.setDate(startDate.getDate() + i);
+                    const formattedDate = currentDate.toISOString().split('T')[0];
+                    const dailyAverage = Math.ceil(quantity / (daysDiff + 1));
+
+                    output += `${formattedDate} ${dailyAverage.toLocaleString()}<br>`;
+                    runningTotal += dailyAverage;
+                }
+
+                document.getElementById("output").innerHTML = output;
+
+                const copyText = `おはようございます。今日の目安は ${runningTotal.toLocaleString()} 個です。`;
+                navigator.clipboard.writeText(copyText);
+            } else {
+                alert("値を正しく入力してください。");
+            }
+        }
+    </script>
+</body>
+</html>
