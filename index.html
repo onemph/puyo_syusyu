@@ -75,13 +75,20 @@
 
                     output += `${formattedDate} ${dailyAverage.toLocaleString()}<br>`;
                     runningTotal += dailyAverage;
+
+                    // 最終日の個数を保存
+                    if (i === daysDiff) {
+                        localStorage.setItem('copiedTotal', dailyAverage);
+                    }
                 }
 
                 document.getElementById("output").innerHTML = output;
 
-                const copyText = `おはようございます。今日の目安は ${runningTotal.toLocaleString()} 個です。`;
+                // ボタンを押した日の個数を取得
+                const copiedTotal = localStorage.getItem('copiedTotal');
+                const copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()} 個\nです。`;
                 navigator.clipboard.writeText(copyText);
-
+                
                 // 値をローカルストレージに保存する
                 localStorage.setItem('quantity', quantity);
                 localStorage.setItem('startDate', document.getElementById("start-date").value);
