@@ -46,6 +46,17 @@
     <div id="output"></div>
 
     <script>
+        // ページが読み込まれたときに保存された値を取得してフォームに入力する
+        window.onload = function() {
+            const quantity = localStorage.getItem('quantity');
+            const startDate = localStorage.getItem('startDate');
+            const endDate = localStorage.getItem('endDate');
+
+            if (quantity) document.getElementById('quantity').value = quantity;
+            if (startDate) document.getElementById('start-date').value = startDate;
+            if (endDate) document.getElementById('end-date').value = endDate;
+        };
+
         function calculateAverage() {
             const quantity = parseInt(document.getElementById("quantity").value);
             const startDate = new Date(document.getElementById("start-date").value);
@@ -70,6 +81,11 @@
 
                 const copyText = `おはようございます。今日の目安は ${runningTotal.toLocaleString()} 個です。`;
                 navigator.clipboard.writeText(copyText);
+
+                // 値をローカルストレージに保存する
+                localStorage.setItem('quantity', quantity);
+                localStorage.setItem('startDate', document.getElementById("start-date").value);
+                localStorage.setItem('endDate', document.getElementById("end-date").value);
             } else {
                 alert("値を正しく入力してください。");
             }
