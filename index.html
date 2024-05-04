@@ -81,6 +81,10 @@
                     const dailyAverage = Math.ceil(quantity / (daysDiff + 1));
 
                     runningTotal += dailyAverage;
+                    // runningTotalがquantityを超えた場合、quantityの値にする
+                    if (runningTotal > quantity) {
+                        runningTotal = quantity;
+                    }
 
                     output += `${formattedDate} ${runningTotal.toLocaleString()}<br>`;
                 }
