@@ -21,6 +21,7 @@ function calculateAverage() {
     const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
     const endDate = new Date(document.getElementById("end-date").value + "T00:00:00+09:00");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+    const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
 
     if (quantity && startDate && endDate && daysDiff > 0) {
         let output = '';
@@ -30,7 +31,6 @@ function calculateAverage() {
             const currentDate = new Date(startDate);
             currentDate.setDate(startDate.getDate() + i);
             const formattedDate = currentDate.toISOString().split('T')[0];
-            const dailyAverage = Math.ceil(quantity / (daysDiff + 1));
 
             runningTotal += dailyAverage;
             // runningTotalがquantityを超えた場合、quantityの値にする
@@ -51,7 +51,6 @@ function calculateAverage() {
         let copyText;
         if (copiedTotal === dailyAverage) {
             copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${endDate-startDate+1}なので、1日の平均個数は\n${copiedTotal.toLocaleString()}個\nです。`;
-            copiedTotal = quantity;
         } else {
             copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()}個\nです。`;
         }
