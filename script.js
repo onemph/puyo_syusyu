@@ -45,9 +45,17 @@ function calculateAverage() {
 
         // ボタンを押した日の合算値を取得
         const currentDayIndex = Math.min(Math.max(0, Math.ceil((new Date() - startDate) / (1000 * 60 * 60 * 24))), daysDiff);
-        const copiedTotal = runningTotal - Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex) - Math.ceil(quantity / (daysDiff + 1));
+        let copiedTotal = runningTotal - Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex) - Math.ceil(quantity / (daysDiff + 1));
 
-        const copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()}個\nです。`;
+        // 初日の場合は特別なメッセージを表示
+        let copyText;
+        if (copiedTotal === dailyAverage) {
+            copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${endDate-startDate+1}なので、1日の平均個数は\n${copiedTotal.toLocaleString()}個\nです。`;
+            copiedTotal = quantity;
+        } else {
+            copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()}個\nです。`;
+        }
+
         navigator.clipboard.writeText(copyText);
         
         // 値をローカルストレージに保存する
