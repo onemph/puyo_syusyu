@@ -19,6 +19,7 @@ function setEndDate() {
 function calculateAverage() {
     const quantity = parseInt(document.getElementById("quantity").value);
     const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
+    const startDateCopy = new Date(startDate.getTime()); // 開始日のコピーを作成
     const endDate = new Date(document.getElementById("end-date").value + "T00:00:00+09:00");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
     const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
@@ -28,8 +29,8 @@ function calculateAverage() {
         let runningTotal = 0;
 
         for (let i = 0; i <= daysDiff; i++) {
-            const currentDate = new Date(startDate);
-            currentDate.setDate(startDate.getDate() + i);
+            const currentDate = new Date(startDateCopy); // 開始日のコピーを使用
+            currentDate.setDate(startDateCopy.getDate() + i);
             const formattedDate = currentDate.toISOString().split('T')[0];
 
             runningTotal += dailyAverage;
