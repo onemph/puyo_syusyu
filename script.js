@@ -47,7 +47,7 @@ function calculateAverage() {
         const currentDayIndex = Math.min(Math.max(0, Math.ceil((new Date() - startDate) / (1000 * 60 * 60 * 24))), daysDiff);
         const copiedTotal = runningTotal - Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex) - Math.ceil(quantity / (daysDiff + 1));
 
-        const copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()} 個\nです。`;
+        const copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()}個\nです。`;
         navigator.clipboard.writeText(copyText);
         
         // 値をローカルストレージに保存する
