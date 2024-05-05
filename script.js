@@ -19,19 +19,18 @@ function setEndDate() {
 function calculateAverage() {
     const quantity = parseInt(document.getElementById("quantity").value);
     const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
-    const startDateCopy = new Date(startDate.getTime()); // 開始日のコピーを作成
     const endDate = new Date(document.getElementById("end-date").value + "T00:00:00+09:00");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-    const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
 
     if (quantity && startDate && endDate && daysDiff > 0) {
         let output = '';
         let runningTotal = 0;
 
         for (let i = 0; i <= daysDiff; i++) {
-            const currentDate = new Date(startDateCopy); // 開始日のコピーを使用
-            currentDate.setDate(startDateCopy.getDate() + i);
+            const currentDate = new Date(startDate);
+            currentDate.setDate(startDate.getDate() + i);
             const formattedDate = currentDate.toISOString().split('T')[0];
+            const dailyAverage = Math.ceil(quantity / (daysDiff + 1));
 
             runningTotal += dailyAverage;
             // runningTotalがquantityを超えた場合、quantityの値にする
@@ -46,16 +45,9 @@ function calculateAverage() {
 
         // ボタンを押した日の合算値を取得
         const currentDayIndex = Math.min(Math.max(0, Math.ceil((new Date() - startDate) / (1000 * 60 * 60 * 24))), daysDiff);
-        let copiedTotal = Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex);
+        const copiedTotal = runningTotal - Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex) - Math.ceil(quantity / (daysDiff + 1));
 
-        // 初日の場合は特別なメッセージを表示
-        let copyText;
-        if (copiedTotal === dailyAverage) {
-            copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${endDate-startDate+1}なので、1日の平均個数は\n${copiedTotal.toLocaleString()}個\nです。`;
-        } else {
-            copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()}個\nです。`;
-        }
-
+        const copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()} 個\nです。`;
         navigator.clipboard.writeText(copyText);
         
         // 値をローカルストレージに保存する
