@@ -45,7 +45,7 @@ function calculateAverage() {
 
         // ボタンを押した日の合算値を取得
         const currentDayIndex = Math.min(Math.max(0, Math.ceil((new Date() - startDate) / (1000 * 60 * 60 * 24))), daysDiff);
-        let copiedTotal = runningTotal - Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex) - Math.ceil(quantity / (daysDiff + 1));
+        let copiedTotal = Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex);
 
         // 初日の場合は特別なメッセージを表示
         let copyText;
