@@ -23,12 +23,13 @@ function calculateAverage() {
     const startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
     const endDate = new Date(document.getElementById("end-date").value + "T00:00:00Z");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-    const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
 
     if (quantity && startDate && endDate && daysDiff > 0) {
+        const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
+        let copyText = ''; // copyText を宣言
+
         let output = '';
         let runningTotal = 0;
-        let copyText = ''; // copyText を宣言
 
         for (let i = 0; i <= daysDiff; i++) {
             const currentDate = new Date(startDate);
@@ -37,7 +38,7 @@ function calculateAverage() {
 
             if (i === 0) {
                 copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${daysDiff+1}なので、1日の平均個数は\n${dailyAverage}個\nです。`;
-            } else if (currentDate.toISOString().split('T')[0] === new Date().toISOString().split('T')[0]) {
+            } else if (currentDate.getTime() === new Date().setHours(0, 0, 0, 0)) {
                 copyText = `おはようございます。今日の目安は\n${runningTotal.toLocaleString()}個\nです。`;
             }
 
@@ -52,10 +53,7 @@ function calculateAverage() {
 
         document.getElementById("output").innerHTML = output;
 
-        // ボタンを押した日の合算値を取得
-        let copiedTotal = Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex);
-
-        // 値をクリップボードにコピーする
+        // ボタンを押した日のコピーされるテキストを設定
         navigator.clipboard.writeText(copyText);
 
         // 値をローカルストレージに保存する
