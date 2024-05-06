@@ -1,22 +1,3 @@
-// ページが読み込まれたときに保存された値を取得してフォームに入力する
-window.onload = function() {
-    const quantity = localStorage.getItem('quantity');
-    const startDate = localStorage.getItem('startDate');
-    const endDate = localStorage.getItem('endDate');
-
-    if (quantity) document.getElementById('quantity').value = quantity;
-    if (startDate) document.getElementById('start-date').value = startDate;
-    if (endDate) document.getElementById('end-date').value = endDate;
-};
-
-// 終了日を開始日から13日後に設定する
-function setEndDate() {
-    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 13);
-    document.getElementById("end-date").value = endDate.toISOString().split('T')[0];
-}
-
 // 平均値を計算して表示する
 function calculateAverage() {
     const quantity = parseInt(document.getElementById("quantity").value);
@@ -40,6 +21,12 @@ function calculateAverage() {
         currentDate.setDate(startDate.getDate() + i);
         const formattedDate = currentDate.toISOString().split('T')[0];
 
+        runningTotal += dailyAverage;
+        // runningTotalがquantityを超えた場合、quantityの値にする
+        if (runningTotal > quantity) {
+            runningTotal = quantity;
+        }
+
         output += `${formattedDate} ${runningTotal.toLocaleString()}<br>`;
 
         if (currentDate.toISOString().split('T')[0] === new Date().toISOString().split('T')[0]) {
@@ -49,18 +36,12 @@ function calculateAverage() {
                 copyText = `おはようございます。今日の目安は\n${runningTotal.toLocaleString()}個\nです。`;
             }
         }
-
-        runningTotal += dailyAverage;
-        // runningTotalがquantityを超えた場合、quantityの値にする
-        if (runningTotal > quantity) {
-            runningTotal = quantity;
-        }
     }
-
-    document.getElementById("output").innerHTML = output;
 
     // ボタンを押した日のコピーされるテキストを設定
     navigator.clipboard.writeText(copyText);
+
+    document.getElementById("output").innerHTML = output;
 
     // 値をローカルストレージに保存する
     localStorage.setItem('quantity', quantity);
