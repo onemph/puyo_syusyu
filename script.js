@@ -53,8 +53,9 @@ function calculateAverage() {
         
         console.log('new Date: ', new Date());
         console.log('new Date().toLocaleString', new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'}));
-        console.log('new Date().toLocaleString.toISOString()', new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'}).toISOString());
-
+        console.log('new Date(new Date().toLocaleString', new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})));
+        console.log('new Date(new Date().toLocaleString.toISOString()', new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString());
+        console.log('new Date(new Date().toLocaleString.toISOString().split', new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString().split('T')[0]);
         
         if (formattedDate === currentDateJST) {
             if (i === 0) {
