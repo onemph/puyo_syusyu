@@ -5,25 +5,26 @@ window.onload = function() {
     const endDate = localStorage.getItem('endDate');
 
     if (quantity) document.getElementById('quantity').value = quantity;
-    if (startDate) document.getElementById('start-date').value = startDate;
+    if (startDate) {
+        document.getElementById('start-date').value = startDate;
+        setEndDate(); // 開始日が設定されたら終了日も自動的に設定
+    }
     if (endDate) document.getElementById('end-date').value = endDate;
 };
 
+// 終了日を開始日から13日後に設定する
 function setEndDate() {
-    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
+    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 13);
     document.getElementById("end-date").value = endDate.toISOString().split('T')[0];
 }
 
+// 平均値を計算して表示する
 function calculateAverage() {
     const quantity = parseInt(document.getElementById("quantity").value);
-    let startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
-    const endDate = new Date(document.getElementById("end-date").value + "T00:00:00Z");
-
-    // startDate の値が取得された直後に表示する
-    console.log('startDate:', startDate);
-
+    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
+    const endDate = new Date(document.getElementById("end-date").value + "T00:00:00+09:00");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
     const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
 
@@ -36,6 +37,12 @@ function calculateAverage() {
             currentDate.setDate(startDate.getDate() + i);
             const formattedDate = currentDate.toISOString().split('T')[0];
 
+            if (i === 0) {
+                copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${daysDiff+1}なので、1日の平均個数は\n${dailyAverage}個\nです。`;
+            } else if (currentDate.getTime() === new Date().setHours(0, 0, 0, 0)) {
+                copyText = `おはようございます。今日の目安は\n${runningTotal.toLocaleString()}個\nです。`;
+            }
+
             runningTotal += dailyAverage;
             // runningTotalがquantityを超えた場合、quantityの値にする
             if (runningTotal > quantity) {
@@ -47,20 +54,6 @@ function calculateAverage() {
 
         document.getElementById("output").innerHTML = output;
 
-        // ボタンを押した日の合算値を取得
-        const currentDayIndex = Math.min(Math.max(0, Math.ceil((new Date(new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })) - startDate) / (1000 * 60 * 60 * 24))), daysDiff);
-        let copiedTotal = Math.ceil(quantity / (daysDiff + 1)) * (daysDiff - currentDayIndex);
-
-        // 初日の場合は特別なメッセージを表示
-        let copyText;
-        if (copiedTotal === dailyAverage) {
-            copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${endDate-startDate+1}なので、1日の平均個数は\n${copiedTotal.toLocaleString()}個\nです。`;
-        } else {
-            copyText = `おはようございます。今日の目安は\n${copiedTotal.toLocaleString()}個\nです。`;
-        }
-
-        navigator.clipboard.writeText(copyText);
-        
         // 値をローカルストレージに保存する
         localStorage.setItem('quantity', quantity);
         localStorage.setItem('startDate', document.getElementById("start-date").value);
