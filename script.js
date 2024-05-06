@@ -51,6 +51,12 @@ function calculateAverage() {
         // JSTで現在の日付を取得
         const currentDateJST = new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString().split('T')[0];
         
+        console.log('new Date: ', new Date());
+        console.log('new Date().toLocaleString', new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'});
+        console.log('new Date().toLocaleString.toISOString()', new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString());
+        console.log('new Date().toLocaleString.toISOString().split', new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString().split('T')[0]);
+        console.log('new Date(new Date().toLocaleString.toISOString().split', new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString().split('T')[0]);
+        
         if (formattedDate === currentDateJST) {
             if (i === 0) {
                 copyText = `今回の完走は${quantity.toLocaleString()}個、日数は${daysDiff+1}日なので、1日の平均個数は\n${dailyAverage.toLocaleString()}個\nです。`;
