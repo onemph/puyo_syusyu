@@ -53,6 +53,7 @@ function calculateAverage() {
         
         console.log('new Date: ', new Date());
         console.log('new Date().toLocaleString', new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'}));
+        console.log('new Date().toLocaleString.toISOString()', new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'}).toISOString());
 
         
         if (formattedDate === currentDateJST) {
