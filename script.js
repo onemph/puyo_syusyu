@@ -1,3 +1,22 @@
+// ページが読み込まれたときに保存された値を取得してフォームに入力する
+window.onload = function() {
+    const quantity = localStorage.getItem('quantity');
+    const startDate = localStorage.getItem('startDate');
+    const endDate = localStorage.getItem('endDate');
+
+    if (quantity) document.getElementById('quantity').value = quantity;
+    if (startDate) document.getElementById('start-date').value = startDate;
+    if (endDate) document.getElementById('end-date').value = endDate;
+};
+
+// 終了日を開始日から13日後に設定する
+function setEndDate() {
+    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 13);
+    document.getElementById("end-date").value = endDate.toISOString().split('T')[0];
+}
+
 // 平均値を計算して表示する
 function calculateAverage() {
     const quantity = parseInt(document.getElementById("quantity").value);
