@@ -5,16 +5,13 @@ window.onload = function() {
     const endDate = localStorage.getItem('endDate');
 
     if (quantity) document.getElementById('quantity').value = quantity;
-    if (startDate) {
-        document.getElementById('start-date').value = startDate;
-        setEndDate(); // 開始日が設定されたら終了日も自動的に設定
-    }
+    if (startDate) document.getElementById('start-date').value = startDate;
     if (endDate) document.getElementById('end-date').value = endDate;
 };
 
 // 終了日を開始日から13日後に設定する
 function setEndDate() {
-    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
+    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 13);
     document.getElementById("end-date").value = endDate.toISOString().split('T')[0];
@@ -23,14 +20,16 @@ function setEndDate() {
 // 平均値を計算して表示する
 function calculateAverage() {
     const quantity = parseInt(document.getElementById("quantity").value);
-    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00+09:00");
-    const endDate = new Date(document.getElementById("end-date").value + "T00:00:00+09:00");
+    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
+    const endDate = new Date(document.getElementById("end-date").value + "T00:00:00Z");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-    const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
 
     if (quantity && startDate && endDate && daysDiff > 0) {
         let output = '';
         let runningTotal = 0;
+
+        const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
+        let copyText = ''; // copyText を宣言
 
         for (let i = 0; i <= daysDiff; i++) {
             const currentDate = new Date(startDate);
@@ -52,6 +51,10 @@ function calculateAverage() {
             output += `${formattedDate} ${runningTotal.toLocaleString()}<br>`;
         }
 
+        // copyText をクリップボードにコピー
+        navigator.clipboard.writeText(copyText);
+
+        // 出力を更新
         document.getElementById("output").innerHTML = output;
 
         // 値をローカルストレージに保存する
