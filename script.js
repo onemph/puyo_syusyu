@@ -38,7 +38,7 @@ function calculateAverage() {
 
             if (currentDate.toISOString().split('T')[0] === new Date().toISOString().split('T')[0]) {
                 if (i === 0) {
-                    copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${daysDiff+1}なので、1日の平均個数は\n${dailyAverage}個\nです。`;
+                    copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${daysDiff+1}なので、1日の平均個数は\n${dailyAverage.toLocaleString()}個\nです。`;
                 } else {
                     copyText = `おはようございます。今日の目安は\n${runningTotal.toLocaleString()}個\nです。`;
                 }
