@@ -18,8 +18,12 @@ function setEndDate() {
 
 function calculateAverage() {
     const quantity = parseInt(document.getElementById("quantity").value);
-    const startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
+    let startDate = new Date(document.getElementById("start-date").value + "T00:00:00Z");
     const endDate = new Date(document.getElementById("end-date").value + "T00:00:00Z");
+
+    // startDate の値が取得された直後に表示する
+    console.log('startDate:', startDate);
+
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
     const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
 
