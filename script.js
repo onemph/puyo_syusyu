@@ -49,6 +49,7 @@ function calculateAverage() {
         output += `${formattedDate} ${runningTotal.toLocaleString()}<br>`;
         
         console.log('currentDate:', currentDate);
+        console.log('new Date():', new Date());
         
         if (currentDate.toISOString().split('T')[0] === new Date().toISOString().split('T')[0]) {
             if (i === 0) {
