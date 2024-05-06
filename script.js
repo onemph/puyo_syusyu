@@ -25,7 +25,7 @@ function calculateAverage() {
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
 
     const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
-    let copyText = ''; // copyText を宣言
+    let copyText = 'ccc'; // copyText を宣言
 
     if (quantity && startDate && endDate && daysDiff > 0) {
         let output = '';
