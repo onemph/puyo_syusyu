@@ -37,9 +37,12 @@ function calculateAverage() {
             const formattedDate = currentDate.toISOString().split('T')[0];
 
             if (currentDate.getTime() === new Date().setHours(0, 0, 0, 0)) {
+                console.log('i:', i);
                 if (i === 0) {
+                    console.log('a');
                     copyText = `今回の完走は\n${quantity.toLocaleString()}個、日数は${daysDiff+1}なので、1日の平均個数は\n${dailyAverage}個\nです。`;
                 } else {
+                    console.log('b');
                     copyText = `おはようございます。今日の目安は\n${runningTotal.toLocaleString()}個\nです。`;
                 }
             }
