@@ -24,10 +24,10 @@ function calculateAverage() {
     const endDate = new Date(document.getElementById("end-date").value + "T00:00:00Z");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
 
-    if (quantity && startDate && endDate && daysDiff > 0) {
-        const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
-        let copyText = ''; // copyText を宣言
+    const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
+    let copyText = ''; // copyText を宣言
 
+    if (quantity && startDate && endDate && daysDiff > 0) {
         let output = '';
         let runningTotal = 0;
 
