@@ -24,12 +24,12 @@ function calculateAverage() {
     const endDate = new Date(document.getElementById("end-date").value + "T00:00:00Z");
     const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
 
+    const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
+    let copyText = ''; // copyText を宣言
+
     if (quantity && startDate && endDate && daysDiff > 0) {
         let output = '';
         let runningTotal = 0;
-
-        const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
-        let copyText = ''; // copyText を宣言
 
         for (let i = 0; i <= daysDiff; i++) {
             const currentDate = new Date(startDate);
@@ -53,11 +53,11 @@ function calculateAverage() {
             output += `${formattedDate} ${runningTotal.toLocaleString()}<br>`;
         }
 
-        // copyText をクリップボードにコピー
-        navigator.clipboard.writeText(copyText);
-
         // 出力を更新
         document.getElementById("output").innerHTML = output;
+
+        // copyText をクリップボードにコピー
+        navigator.clipboard.writeText(copyText);
 
         // 値をローカルストレージに保存する
         localStorage.setItem('quantity', quantity);
