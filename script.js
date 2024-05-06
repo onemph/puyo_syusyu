@@ -50,9 +50,8 @@ function calculateAverage() {
 
         console.log('currentDate:', currentDate);
         console.log('new Date():', new Date());
-        console.log('currentDate.toISOString().split('T')[0]:', currentDate.toISOString().split('T')[0]);
-        console.log('new Date().toISOString().split('T')[0]:', new Date().toISOString().split('T')[0]);
-        
+        console.log('currentDate.toISOString().split(\'T\')[0]:', currentDate.toISOString().split('T')[0]);
+        console.log('new Date().toISOString().split(\'T\')[0]:', new Date().toISOString().split('T')[0]);
         
         if (currentDate.toISOString().split('T')[0] === new Date().toISOString().split('T')[0]) {
             if (i === 0) {
