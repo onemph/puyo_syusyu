@@ -35,10 +35,18 @@ function calculateAverage() {
     let output = '';
     let runningTotal = 0;
 
+    // JSTで現在の日付を取得
+    const currentDate = new Date();
+    console.log('currentDate: ', currentDate);
+    currentDate.setHours(currentDate.getHours() + 9); // JSTに変換
+    console.log('currentDate+9: ', currentDate);
+    const currentDateJST = currentDate.toISOString().split('T')[0];
+    console.log('currentDateJST: ', currentDateJST);
+
     for (let i = 0; i <= daysDiff; i++) {
-        const currentDate = new Date(startDate);
-        currentDate.setDate(startDate.getDate() + i);
-        const formattedDate = currentDate.toISOString().split('T')[0];
+        const loopDate = new Date(startDate);
+        loopDate.setDate(startDate.getDate() + i);
+        const formattedDate = loopDate.toISOString().split('T')[0];
 
         runningTotal += dailyAverage;
         // runningTotalがquantityを超えた場合、quantityの値にする
@@ -47,15 +55,6 @@ function calculateAverage() {
         }
 
         output += `${formattedDate} ${runningTotal.toLocaleString()}<br>`;
-        
-        // JSTで現在の日付を取得
-        const currentDateJST = new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString().split('T')[0];
-        
-        console.log('new Date: ', new Date());
-        console.log('new Date().toLocaleString', new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'}));
-        console.log('new Date(new Date().toLocaleString', new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})));
-        console.log('new Date(new Date().toLocaleString.toISOString()', new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString());
-        console.log('new Date(new Date().toLocaleString.toISOString().split', new Date(new Date().toLocaleString('ja-JP', {timeZone: 'Asia/Tokyo'})).toISOString().split('T')[0]);
         
         if (formattedDate === currentDateJST) {
             if (i === 0) {
