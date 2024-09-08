@@ -54,7 +54,6 @@ function calculateAverage() {
             runningTotal = quantity;
         }
 
-        // 適切な変数名に日付と合計値を格納
         let displayText = `${formattedDate} ${runningTotal.toLocaleString()}`;
 
         // 本日と一致する日付なら赤文字で表示する
