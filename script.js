@@ -54,11 +54,20 @@ function calculateAverage() {
             runningTotal = quantity;
         }
 
-        output += `${formattedDate} ${runningTotal.toLocaleString()}<br>`;
-        
+        // 適切な変数名に日付と合計値を格納
+        let displayText = `${formattedDate} ${runningTotal.toLocaleString()}`;
+
+        // 本日と一致する日付なら赤文字で表示する
+        if (formattedDate === currentDateJST) {
+            displayText = `<span style="color:red;">${displayText}</span>`;
+        }
+
+        output += `${displayText}<br>`;
+
+        // 本日の目安やコピー用テキストの生成
         if (formattedDate === currentDateJST) {
             if (i === 0) {
-                copyText = `今回の完走は${quantity.toLocaleString()}個、日数は${daysDiff+1}日なので、1日の平均個数は\n${dailyAverage.toLocaleString()}個\nです。`;
+                copyText = `今回の完走は${quantity.toLocaleString()}個、日数は${daysDiff + 1}日なので、1日の平均個数は\n${dailyAverage.toLocaleString()}個\nです。`;
             } else {
                 copyText = `おはようございます。今日の目安は\n${runningTotal.toLocaleString()}個\nです。`;
             }
