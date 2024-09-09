@@ -29,15 +29,19 @@ function calculateAverage() {
         return;
     }
 
-    const dailyAverage = Math.ceil(quantity / (daysDiff + 1));
-    let copyText = '';
+    const dailyAverage = Math.ceil(quantity / (daysDiff + 1)); // dailyAverage をループ外で計算
+    let copyText = ''; // copyText を宣言
+
     let output = '';
     let runningTotal = 0;
 
     // JSTで現在の日付を取得
     const currentDate = new Date();
+    console.log('currentDate: ', currentDate);
     currentDate.setHours(currentDate.getHours() + 9); // JSTに変換
+    console.log('currentDate+9: ', currentDate);
     const currentDateJST = currentDate.toISOString().split('T')[0];
+    console.log('currentDateJST: ', currentDateJST);
 
     for (let i = 0; i <= daysDiff; i++) {
         const loopDate = new Date(startDate);
@@ -45,18 +49,21 @@ function calculateAverage() {
         const formattedDate = loopDate.toISOString().split('T')[0];
 
         runningTotal += dailyAverage;
+        // runningTotalがquantityを超えた場合、quantityの値にする
         if (runningTotal > quantity) {
             runningTotal = quantity;
         }
 
         let displayText = `${formattedDate} ${runningTotal.toLocaleString()}`;
 
+        // 本日と一致する日付なら赤文字で表示する
         if (formattedDate === currentDateJST) {
             displayText = `<span style="color:red;">${displayText}</span>`;
         }
 
         output += `${displayText}<br>`;
 
+        // 本日の目安やコピー用テキストの生成
         if (formattedDate === currentDateJST) {
             if (i === 0) {
                 copyText = `今回の完走は${quantity.toLocaleString()}個、日数は${daysDiff + 1}日なので、1日の平均個数は\n${dailyAverage.toLocaleString()}個\nです。`;
@@ -66,18 +73,10 @@ function calculateAverage() {
         }
     }
 
-    // フラッシュ効果の適用
-    const outputElement = document.getElementById("output");
-    outputElement.classList.add('flash');
-    setTimeout(() => {
-        outputElement.classList.remove('flash');
-    }, 300);
-
     // ボタンを押した日のコピーされるテキストを設定
     navigator.clipboard.writeText(copyText);
 
-    // 合算値を表示
-    outputElement.innerHTML = output;
+    document.getElementById("output").innerHTML = output;
 
     // 値をローカルストレージに保存する
     localStorage.setItem('quantity', quantity);
